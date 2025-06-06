@@ -12,20 +12,20 @@ Description: show all profiles page, extending the base.html file -->
     <!-- scriptlet code to display all profiles`  -->
 
     <!-- loop over all profiles -->
-    {% for p in profiles %}
+    {% for profile in profiles %}
             <div class="profile_info_all">
 
             <!-- check if profile_image_url for a profile exists -->
-            {% if p.profile_image_url %}
+            {% if profile.profile_image_file.url %}
             
                 <!-- link to this profile -->
-                <a href="{% url 'show_profile' p.pk %}">
-                <img class="profile_image_all" src="{{p.profile_image_url}}" alt="{{p.profile_image_url}}">
+                <a href="{% url 'show_profile' profile.pk %}">
+                <img class="profile_image_all" src="{{profile.profile_image_file.url}}" alt="{{profile.profile_image_file.url}}">
                 </a>
             {% endif %}
 
-                <h2>{{p.first_name}} {{p.last_name}}</h2>
-                <h3> From {{p.city}}</h3>
+                <h2>{{profile.first_name}} {{profile.last_name}}</h2>
+                <h3> From {{profile.city}}</h3>
             </div>
     {% endfor %}
 

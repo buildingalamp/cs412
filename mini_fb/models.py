@@ -14,7 +14,8 @@ class Profile(models.Model):
     last_name = models.TextField(blank=True)
     city = models.TextField(blank=True)
     email_address = models.EmailField(blank=True)
-    profile_image_url = models.URLField(blank=True)
+    # profile_image_url = models.URLField(blank=True) #url as a string
+    profile_image_file = models.ImageField(blank=True)
 
     def __str__(self):
         """Returns Profile's first and last name as one string"""
@@ -40,3 +41,33 @@ class StatusMessage(models.Model):
     def __str__(self):
         """Returns StatusMessage's message as string"""
         return f'{self.message}'
+    
+    def get_images(self):
+        """Returns all images related to this StatusMessage"""
+
+        #use reverse foreign key manager to get list of StatusImage related to this StatusMessage
+        status_image_list = list(self.statusimage_set.all())
+        image_list = [None] * len(status_image_list)
+
+        #iterate over each list of StatusImage
+        for n in range(len(status_image_list)):
+
+            #get Image related to StatusImage and insert into list
+            image_list[n] = status_image_list[n].image
+
+        return image_list
+    
+class Image(models.Model):
+    """Profile image model"""
+
+    #attributes of Image
+    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    image_file = models.ImageField(blank=True)
+    timestamp = models.DateTimeField(auto_now=True)
+
+class StatusImage(models.Model):
+    """Images to StatusMessage model"""
+
+    #attributes of StatusImage
+    image = models.ForeignKey("Image", on_delete=models.CASCADE)
+    status_message = models.ForeignKey("StatusMessage", on_delete=models.CASCADE)

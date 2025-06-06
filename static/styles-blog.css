@@ -77,6 +77,13 @@ hr {
     gap: 20px;
 }
 
+.status_message_image {
+    display: flex;
+    justify-content: right;
+    height: 5vw;
+    width: auto
+}
+
 nav li {
     display: inline;
 }

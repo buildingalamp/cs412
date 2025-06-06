@@ -11,8 +11,8 @@ Description: show a single profile page, extending the base.html file -->
     <!-- scriptlet code to display all profiles  -->
      
     <!-- loop over all profiles -->
-        {% if profile.profile_image_url %}
-            <img class="profile_image_single" src="{{profile.profile_image_url}}" alt="{{profile.profile_image_url}}">
+        {% if profile.profile_image_file.url %}
+            <img class="profile_image_single" src="{{profile.profile_image_file.url}}" alt="{{profile.profile_image_file.url}}">
         {% endif %}
 
         <div class="profile_info_single">
@@ -24,9 +24,14 @@ Description: show a single profile page, extending the base.html file -->
         <div>
             <h2>Status Messages</h2>
             <h3><a href="{% url 'create_status' profile.pk %}">Create a status message</a></h3>
-            {% for m in profile.get_all_status_messages %}
-                <strong> {{m.message}} </strong>
-                <h5> {{m.timestamp}} </h4>
+            {% for status in profile.get_all_status_messages %}
+                <strong> {{status.message}} </strong>
+                <h5> {{status.timestamp}} </h4>
+
+                <!-- loop over all Image related to get_all_status_messages -->
+                {% for img in status.get_images %}
+                    <img class="status_message_image" src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
+                {% endfor %}
             {% endfor %}
         </div>
 </main>
