@@ -1,0 +1,27 @@
+<!-- templates/base.html -->
+<!-- blog/templates/blog/base.html -->
+{% load static %}
+<html>
+    <head>
+        <title>MiniFacebook</title>
+        <link rel="stylesheet" href="{% static 'styles-blog.css' %}">
+    </head>
+    <body>
+        <header>
+            <h1>MiniFaceboook</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'show_all_profiles'%}">Show All</a></li>
+                </ul>
+            </nav>
+        </header>
+    
+    <!-- substitute specific content here -->
+    {% block content %}
+    {% endblock %}    
+  
+        <footer>
+            <h3>MiniMeta&trade;</h3>
+        </footer>
+    </body>
+</html>

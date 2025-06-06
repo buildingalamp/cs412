@@ -1,0 +1,25 @@
+<!-- templates/show_all.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1>All Profiles</h1>
+
+<main class="grid-container">
+    
+    <!-- scriptlet code to display all profiles`  -->
+    {% for p in profiles %}
+            <div class="profile_info_all">
+            {% if p.profile_image_url %}
+                <!-- link to this profile only -->
+                <a href="{% url 'show_profile' p.pk %}">
+                <img class="profile_image_all" src="{{p.profile_image_url}}" alt="{{p.profile_image_url}}">
+                </a>
+            {% endif %}
+
+                <h2>{{p.first_name}} {{p.last_name}}</h2>
+                <h3> From {{p.city}}</h3>
+            </div>
+    {% endfor %}
+
+</main>
+{% endblock %}

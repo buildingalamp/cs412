@@ -1,0 +1,20 @@
+<!-- templates/show_profile.html -->
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+
+<main class="grid-container">
+    
+    <!-- scriptlet code to display all profiles`  -->
+        {% if profile.profile_image_url %}
+            <img class="profile_image_single" src="{{profile.profile_image_url}}" alt="{{profile.profile_image_url}}">
+        {% endif %}
+
+        <div class="profile_info_single">
+            <h2>{{profile.first_name}} {{profile.last_name}}</h2>
+            <h3>From: {{profile.city}}</h3>
+            <h3>Email: {{profile.email_address}}</h3>
+        </div>
+
+</main>
+{% endblock %}

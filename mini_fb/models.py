@@ -9,7 +9,7 @@ class Profile(models.Model):
     last_name = models.TextField(blank=True)
     city = models.TextField(blank=True)
     email_address = models.EmailField(blank=True)
-    profile_img_url = models.URLField(blank=True)
+    profile_image_url = models.URLField(blank=True)
 
     def __str__(self):
         "return profile's first and last name"
