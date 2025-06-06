@@ -1,0 +1,33 @@
+<!-- File: create_status_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/5/2025
+Description: create status message form page, extending the base.html file -->
+
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1>Add a Status Message about {{profile}}</h1>
+
+<!-- display the HTML form -->
+<form method="POST">
+
+    {% csrf_token %}
+
+    {% csrf_token %}
+    {% csrf_token %}
+        <table>
+            {% for field in form %}
+                <tr>
+                    <th>{{field.name}}</th>
+                    <td>{{field}}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" name='Add Status!' value='Add Status!'>
+                </td>
+            </tr>
+        </table>
+</form>
+
+{% endblock %}

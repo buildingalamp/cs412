@@ -1,8 +1,13 @@
-# mini_fb/urls.py
+# File: urls.py
+# Author: Jeffrey Zhou (jzhou25@bu.edu), 6/5/2025
+# Description: url file used to define url patterns and route urls
+
 from django.urls import path
-from .views import ShowAllProfilesView, ShowProfilePageView
+from .views import ShowAllProfilesView, ShowProfilePageView, CreateProfileView, CreateStatusMessageView
 
 urlpatterns = [
     path('', ShowAllProfilesView.as_view(), name="show_all_profiles"),
-    path('profile/<int:pk>', ShowProfilePageView.as_view(), name="show_profile")
+    path('profile/<int:pk>', ShowProfilePageView.as_view(), name="show_profile"),
+    path('profile/create', CreateProfileView.as_view(), name="create_profile"),
+    path('profile/<int:pk>/create_status', CreateStatusMessageView.as_view(), name="create_status"),
 ]

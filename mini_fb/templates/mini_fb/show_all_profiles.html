@@ -1,4 +1,7 @@
-<!-- templates/show_all.html -->
+<!-- File: show_all_profiles.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/5/2025
+Description: show all profiles page, extending the base.html file -->
+
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
@@ -7,10 +10,15 @@
 <main class="grid-container">
     
     <!-- scriptlet code to display all profiles`  -->
+
+    <!-- loop over all profiles -->
     {% for p in profiles %}
             <div class="profile_info_all">
+
+            <!-- check if profile_image_url for a profile exists -->
             {% if p.profile_image_url %}
-                <!-- link to this profile only -->
+            
+                <!-- link to this profile -->
                 <a href="{% url 'show_profile' p.pk %}">
                 <img class="profile_image_all" src="{{p.profile_image_url}}" alt="{{p.profile_image_url}}">
                 </a>
