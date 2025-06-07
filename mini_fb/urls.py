@@ -5,7 +5,7 @@
 from django.urls import path
 from .views import ShowAllProfilesView, ShowProfilePageView, CreateProfileView
 from .views import CreateStatusMessageView, UpdateProfileView, DeleteStatusMessageView
-from .views import UpdateStatusMessageView
+from .views import UpdateStatusMessageView, AddFriendView, ShowFriendSuggestionsView
 
 urlpatterns = [
     path('', ShowAllProfilesView.as_view(), name="show_all_profiles"),
@@ -14,5 +14,7 @@ urlpatterns = [
     path('profile/<int:pk>/create_status', CreateStatusMessageView.as_view(), name="create_status"),
     path('profile/<int:pk>/update', UpdateProfileView.as_view(), name="update_profile"),
     path('status/<int:pk>/delete', DeleteStatusMessageView.as_view(), name="delete_status"),
-    path('status/<int:pk>/update', UpdateStatusMessageView.as_view(), name="update_status")
+    path('status/<int:pk>/update', UpdateStatusMessageView.as_view(), name="update_status"),
+    path('profile/<int:pk>/add_friend/<int:other_pk>', AddFriendView.as_view(), name="add_friend"),
+    path('profile/<int:pk>/friend_suggestions', ShowFriendSuggestionsView.as_view(), name="friend_suggestions")
 ]

@@ -3,6 +3,7 @@
 # Description: model file used to define database models and their attributes
 
 from django.db import models
+from django.db. models import Q
 from django.urls import reverse
 import sys
 
@@ -31,17 +32,62 @@ class Profile(models.Model):
         """Returns all StatusMesages of this Profile"""
         messages = StatusMessage.objects.filter(profile=self)
         return messages
+    
     #Friend methods
     def get_friends(self):
+        """Returns all Friend relation of this Profile"""
 
         #find Friends where Profile is either profile1 or profile2
         friends1 = Friend.objects.filter(profile1=self)
         friends2 = Friend.objects.filter(profile2=self)
 
         #seperate the other Profile and put into list
-        friend_list = [f.profile2 for f in friends1] + [f.profile1 for f in friends2]
+        friend_list = []
+        for f in friends1:
+            friend_list.append(f.profile2)
+        for f in friends2:
+            friend_list.append(f.profile1)
 
         return friend_list
+    
+    def add_friend(self, other):
+        """Creates new Friend relation between this Profile and other Profile"""
+
+        #check for self-friending
+        if self==other:
+            return
+        
+        #check for duplicates
+        if (Friend.objects.filter(profile1=self, profile2=other) or
+            Friend.objects.filter(profile2=self, profile1=other)).exists():
+            return
+        
+        #create Friend
+        new_friend = Friend(profile1=self, profile2=other)
+        new_friend.save()
+
+    def get_friend_suggestions(self):
+        """"Returns all Profiles not currently Friends with this Profile"""
+
+        friend_suggestions_list = []
+
+        #list of non-candidates: current friends and this profile
+        current_friends = self.get_friends()
+        
+        #get pks for comparison
+        current_friends_pk = []
+        for friend in current_friends:
+            current_friends_pk.append(friend.pk)
+
+        #add all profiles not in current_friends
+        for friend in Profile.objects.all():
+            if friend.pk not in current_friends_pk and friend.pk != self.pk:
+                friend_suggestions_list.append(friend)
+
+        return list(friend_suggestions_list)
+
+        # current_friends = self.get_friends()
+        # return Profile.objects.exclude(Q(id=self.id) | Q(id__in=[p.id for p in current_friends]))
 
 class StatusMessage(models.Model):
     """Status message model"""

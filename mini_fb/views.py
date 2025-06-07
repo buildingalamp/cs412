@@ -2,10 +2,11 @@
 # Author: Jeffrey Zhou (jzhou25@bu.edu), 6/5/2025
 # Description: views file used to define the view classes
 
-from django.shortcuts import render
+import django.views.generic
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
-from .models import Profile, StatusMessage, Image, StatusImage
+from .models import Profile, StatusMessage, Image, StatusImage, Friend
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusMessageForm
 
 # Create your views here.
@@ -137,3 +138,31 @@ class UpdateStatusMessageView(UpdateView):
 
         #reverse to show the Profile page
         return reverse('show_profile', kwargs={'pk':profile.pk})
+    
+class AddFriendView(django.views.generic.View):
+    """View class to handle adding new Friends"""
+
+    model = Profile
+        
+    def dispatch(self, request, *args, **kwargs):
+        """Method to handle the creation of new Friends"""
+        #get Profiles pk from url
+        pk = self.kwargs.get('pk')
+        other_pk = self.kwargs.get('other_pk')
+
+        #get Profiles from pk
+        profile = Profile.objects.get(pk=pk)
+        other_profile = Profile.objects.get(pk=other_pk)
+
+        #add friend
+        profile.add_friend(other_profile)
+
+        #redirect back to profile page
+        return redirect(reverse('show_profile', kwargs={'pk':pk}))
+
+class ShowFriendSuggestionsView(DetailView):
+    """"View class to handle showing friend suggestions"""
+
+    model = Profile
+    context_object_name = 'profile'
+    template_name = "mini_fb/friend_suggestions.html"

@@ -11,47 +11,49 @@ Description: show a single profile page, extending the base.html file -->
     <!-- scriptlet code to display all profiles  -->
      
     <!-- loop over all profiles -->
-        {% if profile.profile_image_file.url %}
-            <img class="profile_image_single" src="{{profile.profile_image_file.url}}" alt="{{profile.profile_image_file.url}}">
-        {% endif %}
+    {% if profile.profile_image_file.url %}
+        <img class="profile_image_single" src="{{profile.profile_image_file.url}}" alt="{{profile.profile_image_file.url}}">
+    {% endif %}
 
-        <div class="profile_info_single">
-            <h2>{{profile.first_name}} {{profile.last_name}}</h2>
-            <h3>City: {{profile.city}}</h3>
-            <h3>Email: {{profile.email_address}}</h3>
-        </div>
-        <div class="buttons">
-            <h3><a href="{% url 'create_status' profile.pk %}">Create Status</a></h3>
-            <h3><a href="{% url 'update_profile' profile.pk %}">Update Profile</a></h3>
-        </div>
-        <div>
-            <h2>Friends</h2>
-            {% for friend in profile.get_friends %}
-                <div>
-                    <strong>{{friend.first_name}} {{friend.last_name}}</strong>
+    <div class="profile_info_single">
+        <h2>{{profile.first_name}} {{profile.last_name}}</h2>
+        <h3>City: {{profile.city}}</h3>
+        <h3>Email: {{profile.email_address}}</h3>
+    </div>
+    <div class="buttons">
+        <h3><a href="{% url 'create_status' profile.pk %}">Create Status</a></h3>
+        <h3><a href="{% url 'update_profile' profile.pk %}">Update Profile</a></h3>
+        <h3><a href="{% url 'friend_suggestions' profile.pk %}">Friend Suggestions</a></h3>
+    </div>
 
-                    <a href="{% url 'show_profile' friend.pk %}">
-                        <img class="friend_profile_image" src='{{friend.profile_image_file.url}}' alt='{{friend.profile_image_file.url}}'>
-                    </a>
-                </div>
-            {% endfor %}
-        </div>
-        <div>
-            <h2>Status Messages</h2>
-            {% for status in profile.get_all_status_messages %}
-                <div>
-                    <strong> {{status.message}} </strong>
-                    <h5> {{status.timestamp}} </h4>
+    <div>
+        <h2>Friends</h2>
+        {% for friend in profile.get_friends %}
+            <div>
+                <strong>{{friend.first_name}} {{friend.last_name}}</strong>
 
-                    <!-- loop over all Image related to get_all_status_messages -->
-                    {% for img in status.get_images %}
-                        <img class="status_message_image" src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
-                    {% endfor %}
+                <a href="{% url 'show_profile' friend.pk %}">
+                    <img class="friend_profile_image" src='{{friend.profile_image_file.url}}' alt='{{friend.profile_image_file.url}}'>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <div>
+        <h2>Status Messages</h2>
+        {% for status in profile.get_all_status_messages %}
+            <div>
+                <strong> {{status.message}} </strong>
+                <h5> {{status.timestamp}} </h4>
 
-                    <a href="{% url 'delete_status' status.pk %}">Delete</a>
-                    <a href="{% url 'update_status' status.pk %}">Update</a>
-                </div>
-            {% endfor %}
-        </div>
+                <!-- loop over all Image related to get_all_status_messages -->
+                {% for img in status.get_images %}
+                    <img class="status_message_image" src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
+                {% endfor %}
+
+                <a href="{% url 'delete_status' status.pk %}">Delete</a>
+                <a href="{% url 'update_status' status.pk %}">Update</a>
+            </div>
+        {% endfor %}
+    </div>
 </main>
 {% endblock %}

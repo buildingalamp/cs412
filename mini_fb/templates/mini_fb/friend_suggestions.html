@@ -1,0 +1,24 @@
+<!-- File: friend_suggestions.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/7/2025
+Description: show friend suggestions for a profile, extending the base.html file -->
+
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+
+<main class="grid-container">
+    
+    <!-- scriptlet code to display all profiles  -->
+    <h2>Friend Suggestions:</h2>
+        {% for friend in profile.get_friend_suggestions %}
+            <div>
+                <strong>{{friend.first_name}} {{friend.last_name}}</strong>
+                <img class="friend_profile_image" src='{{friend.profile_image_file.url}}' alt='{{friend.profile_image_file.url}}'>
+                <a href="{% url 'add_friend' pk=profile.pk other_pk=friend.pk %}">Add Friend</a>
+            </div>
+        {% endfor %}
+            <div>
+                <a href="{% url 'show_profile' profile.pk %}">Back to profile</a>
+            </div>
+</main>
+{% endblock %}
