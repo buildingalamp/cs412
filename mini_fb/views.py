@@ -5,7 +5,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse
-from .models import Profile
+from .models import Profile, StatusMessage, Image, StatusImage
 from .forms import CreateProfileForm, CreateStatusMessageForm
 
 # Create your views here.
@@ -63,6 +63,19 @@ class CreateStatusMessageView(CreateView):
         profile = Profile.objects.get(pk=pk)
         #attach this Profile to the StatusMessage
         form.instance.profile = profile
+
+        #save the status message to the database
+        sm = form.save()
+
+        #read the file from the form
+        files = self.request.FILES.getlist('files')
+
+        for file in files:
+            image = Image(image_file=file)
+            image.save()
+
+            status_image = StatusImage(status_message=sm, image=image)
+            status_image.save()
 
         #delegate the work to the superclass method form_valid
         return super().form_valid(form)

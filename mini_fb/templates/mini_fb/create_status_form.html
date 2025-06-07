@@ -8,7 +8,7 @@ Description: create status message form page, extending the base.html file -->
 <h1>Add a Status Message about {{profile}}</h1>
 
 <!-- display the HTML form -->
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
 
     {% csrf_token %}
 
@@ -17,8 +17,9 @@ Description: create status message form page, extending the base.html file -->
         <table>
             {% for field in form %}
                 <tr>
-                    <th>{{field.name}}</th>
+                    <th>Your Message</th>
                     <td>{{field}}</td>
+                    <input type="file" name="files" multiple />
                 </tr>
             {% endfor %}
             <tr>

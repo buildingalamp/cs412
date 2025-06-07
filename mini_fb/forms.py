@@ -20,3 +20,19 @@ class CreateStatusMessageForm(forms.ModelForm):
         """Associates this form with the StatusMessage model; selects fields"""
         model = StatusMessage
         fields = ['message']
+
+# class CreateImageForm(forms.ModelForm):
+#     """A form to create an Image from uploaded file"""
+
+#     class Meta:
+#         """Associates this form with the Image model; selects fields"""
+#         model = Image
+#         fields = ['image_file']
+
+# class CreateStatusImageForm(forms.ModelForm):
+#     """A form to create a StatusImage"""
+
+#     class Meta:
+#         """Associates this form with the StatusImage model; selects fields"""
+#         model = Image
+#         fields = ['image_file']

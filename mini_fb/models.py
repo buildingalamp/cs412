@@ -61,7 +61,7 @@ class Image(models.Model):
     """Profile image model"""
 
     #attributes of Image
-    profile = models.ForeignKey("Profile", on_delete=models.CASCADE)
+    profile = models.ForeignKey("Profile", blank=True, null=True, on_delete=models.CASCADE)
     image_file = models.ImageField(blank=True)
     timestamp = models.DateTimeField(auto_now=True)
 
