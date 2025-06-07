@@ -24,7 +24,18 @@ Description: show a single profile page, extending the base.html file -->
             <h3><a href="{% url 'create_status' profile.pk %}">Create Status</a></h3>
             <h3><a href="{% url 'update_profile' profile.pk %}">Update Profile</a></h3>
         </div>
+        <div>
+            <h2>Friends</h2>
+            {% for friend in profile.get_friends %}
+                <div>
+                    <strong>{{friend.first_name}} {{friend.last_name}}</strong>
 
+                    <a href="{% url 'show_profile' friend.pk %}">
+                        <img class="friend_profile_image" src='{{friend.profile_image_file.url}}' alt='{{friend.profile_image_file.url}}'>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
         <div>
             <h2>Status Messages</h2>
             {% for status in profile.get_all_status_messages %}

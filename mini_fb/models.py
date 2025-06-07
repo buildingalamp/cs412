@@ -4,6 +4,7 @@
 
 from django.db import models
 from django.urls import reverse
+import sys
 
 # Create your models here.
 class Profile(models.Model):
@@ -25,10 +26,22 @@ class Profile(models.Model):
         """Returns the URL to display one instance of Profile"""
         return reverse('show_profile', kwargs={'pk':self.pk})
     
+    #StatusMessage methods
     def get_all_status_messages(self):
         """Returns all StatusMesages of this Profile"""
         messages = StatusMessage.objects.filter(profile=self)
         return messages
+    #Friend methods
+    def get_friends(self):
+
+        #find Friends where Profile is either profile1 or profile2
+        friends1 = Friend.objects.filter(profile1=self)
+        friends2 = Friend.objects.filter(profile2=self)
+
+        #seperate the other Profile and put into list
+        friend_list = [f.profile2 for f in friends1] + [f.profile1 for f in friends2]
+
+        return friend_list
 
 class StatusMessage(models.Model):
     """Status message model"""
@@ -71,3 +84,15 @@ class StatusImage(models.Model):
     #attributes of StatusImage
     image = models.ForeignKey("Image", on_delete=models.CASCADE)
     status_message = models.ForeignKey("StatusMessage", on_delete=models.CASCADE)
+
+class Friend(models.Model):
+    """"Friend model, associates two Profile"""
+
+    #attributes of Friend
+    profile1 = models.ForeignKey("Profile", related_name="profile1", on_delete=models.CASCADE)
+    profile2 = models.ForeignKey("Profile", related_name="profile2", on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        """Returns the two related Profile as string"""
+        return f'{self.profile1.first_name} {self.profile1.last_name} & {self.profile2.first_name} {self.profile2.last_name}'

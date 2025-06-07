@@ -77,6 +77,15 @@ hr {
     gap: 20px;
 }
 
+.friend_profile_image {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 10vw;
+    width: auto;
+    gap: 20px;
+}
+
 .status_message_image {
     display: flex;
     justify-content: right;
