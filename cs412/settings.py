@@ -27,10 +27,9 @@ SECRET_KEY = "django-insecure-3v5_ht%8vez!xq-t%x1#%0)@58a(uaaa6)sksf(le^dbek5%nq
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
     "cs-webapps.bu.edu",
+    "127.0.0.1",
 ]
-
 
 # Application definition
 
@@ -134,8 +133,8 @@ import socket
 CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 
 if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
-    STATIC_URL = '/buildingalamp/static/'
-    MEDIA_URL = '/buildingalamp/media/'
+    STATIC_URL = '/jzhou25/static/'
+    MEDIA_URL = '/jzhou25/media/'
 
 # declarations to reference media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
