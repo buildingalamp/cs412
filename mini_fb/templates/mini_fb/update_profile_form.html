@@ -1,14 +1,14 @@
-<!-- File: create_profile_form.html
-Author: Jeffrey Zhou (jzhou25@bu.edu), 6/5/2025
-Description: create profile form page, extending the base.html file -->
+<!-- File: update_profile_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/6/2025
+Description: update profile form page, extending the base.html file -->
 
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
-<h1>Create a new Profile</h1>
+<h1>Update your Profile</h1>
 
 <!-- display the HTML form -->
-<form action="{% url 'create_profile' %}" method="POST" enctype="multipart/form-data">
+<form action="{% url 'update_profile' profile.pk %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
        <table>
             {% for field in form %}
@@ -21,12 +21,13 @@ Description: create profile form page, extending the base.html file -->
             <tr>
                 <td></td>
                 <td>
-                    <input type="submit" name='Create Profile!' value='Create Profile!'>
+                    <input type="submit" name='Update Profile!' value='Update Profile!'>
+                </td>
+                <td>
+                    <a class="button" href="{% url 'show_profile' profile.pk %}">Cancel</a>
                 </td>
             </tr>
         </table>
-
-    <input type="submit" name="submit" value="Submit">
 </form>
 
 {% endblock %}

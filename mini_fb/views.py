@@ -3,10 +3,10 @@
 # Description: views file used to define the view classes
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse
 from .models import Profile, StatusMessage, Image, StatusImage
-from .forms import CreateProfileForm, CreateStatusMessageForm
+from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 
 # Create your views here.
 class ShowAllProfilesView(ListView):
@@ -86,3 +86,13 @@ class CreateStatusMessageView(CreateView):
         pk = self.kwargs['pk']
 
         return reverse('show_profile', kwargs={'pk':pk})
+    
+class UpdateProfileView(UpdateView):
+    """View class to handle the update of Profile"""
+
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "mini_fb/update_profile_form.html"
+
+    def form_valid(self, form):
+        return super().form_valid(form)
