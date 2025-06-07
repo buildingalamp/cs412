@@ -1,0 +1,27 @@
+<!-- File: update_status_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/6/2025
+Description: update status message page, extending the base.html file -->
+
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+<h1>Update Status Message?</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            {% for field in form %}
+                <tr>
+                    <th>{{field.name}}</th>
+                    <td>{{field}}</td>
+                </tr>
+            {% endfor %}
+        </div>
+        <input type="submit" value="Update Message!" name="Update Message!">
+    </form>
+
+    <form action="{% url 'show_profile' status_message.profile.pk %}" method="GET">
+        {% csrf_token %}
+        <input type="submit" value="Cancel">
+    </form>
+
+{% endblock %}

@@ -3,10 +3,10 @@
 # Description: views file used to define the view classes
 
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from .models import Profile, StatusMessage, Image, StatusImage
-from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
+from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusMessageForm
 
 # Create your views here.
 class ShowAllProfilesView(ListView):
@@ -96,3 +96,44 @@ class UpdateProfileView(UpdateView):
 
     def form_valid(self, form):
         return super().form_valid(form)
+
+class DeleteStatusMessageView(DeleteView):
+    """View class to handle the deletion of StatusMessage"""
+
+    model = StatusMessage
+    template_name = "mini_fb/delete_status_form.html"
+    context_object_name = 'status_message'
+
+    def get_success_url(self):
+        "Returns the URL of the profile"
+
+        #get the pk for this StatusMessage
+        pk = self.kwargs.get('pk')
+        status_message = StatusMessage.objects.get(pk=pk)
+
+        #find the Profile to which this StatusMessage is related to by FK
+        profile = status_message.profile
+
+        #reverse to show the Profile page
+        return reverse('show_profile', kwargs={'pk':profile.pk})
+
+class UpdateStatusMessageView(UpdateView):
+    """View class to handle the updating of StatusMessage"""
+
+    model = StatusMessage
+    form_class = UpdateStatusMessageForm
+    template_name = "mini_fb/update_status_form.html"
+    context_object_name = 'status_message'
+
+    def get_success_url(self):
+        "Returns the URL of the profile"
+
+        #get the pk for this StatusMessage
+        pk = self.kwargs.get('pk')
+        status_message = StatusMessage.objects.get(pk=pk)
+
+        #find the Profile to which this StatusMessage is related to by FK
+        profile = status_message.profile
+
+        #reverse to show the Profile page
+        return reverse('show_profile', kwargs={'pk':profile.pk})

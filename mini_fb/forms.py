@@ -28,3 +28,11 @@ class UpdateProfileForm(forms.ModelForm):
         """Associates this form with the Image model; selects fields"""
         model = Profile
         fields = ['city', 'email_address', 'profile_image_file']
+
+class UpdateStatusMessageForm(forms.ModelForm):
+    """A form to update a status message"""
+
+    class Meta:
+        """Associates this form with the StateMessage model; selects fields"""
+        model = StatusMessage
+        fields = ['message']
