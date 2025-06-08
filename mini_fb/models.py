@@ -86,9 +86,17 @@ class Profile(models.Model):
 
         return list(friend_suggestions_list)
 
-        # current_friends = self.get_friends()
-        # return Profile.objects.exclude(Q(id=self.id) | Q(id__in=[p.id for p in current_friends]))
+    #Newsfeed methods
+    def get_news_feed(self):
+        """Returns all StatusMessages of friends and self in reverse chronological order"""
 
+        #list profiles for which status messages are to be shown
+        profiles_to_include = self.get_friends() + [self]
+
+        #get all messages for each profile
+        all_messages = StatusMessage.objects.filter(profile__in=profiles_to_include).order_by('-timestamp')
+        return all_messages
+    
 class StatusMessage(models.Model):
     """Status message model"""
 

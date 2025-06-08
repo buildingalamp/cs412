@@ -24,6 +24,7 @@ Description: show a single profile page, extending the base.html file -->
         <h3><a href="{% url 'create_status' profile.pk %}">Create Status</a></h3>
         <h3><a href="{% url 'update_profile' profile.pk %}">Update Profile</a></h3>
         <h3><a href="{% url 'friend_suggestions' profile.pk %}">Friend Suggestions</a></h3>
+        <h3><a href="{% url 'news_feed' profile.pk %}">News Feed</a></h3>
     </div>
 
     <div>

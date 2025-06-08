@@ -1,0 +1,24 @@
+<!-- File: news_feed.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/7/2025
+Description: show news feed for a profile. extending the base.html file -->
+
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+
+<main class="grid-container">
+    
+    <!-- scriptlet code to display all profiles  -->
+    <h2>{{profile.first_name}}'s News Feed</h2>
+        {% for message in profile.get_news_feed %}
+            <div>
+                <strong>{{message.profile.first_name}} {{message.profile.first_name}} {{message.timestamp}}</strong>
+                <img class="status_message_image" src='{{message.profile.profile_image_file.url}}' alt='{{message.profile.profile_image_file.url}}'>
+                <p>{{message.message}}</p>
+            </div>
+        {% endfor %}
+            <div>
+                <a href="{% url 'show_profile' profile.pk %}">Back to profile</a>
+            </div>
+</main>
+{% endblock %}
