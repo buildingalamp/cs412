@@ -10,7 +10,16 @@ Description: create profile form page, extending the base.html file -->
 <!-- display the HTML form -->
 <form action="{% url 'create_profile' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-       <table>
+        <table>
+            {% for field in user_form %}
+                <tr>
+                    <th>{{field.name}}</th>
+                    <td>{{field}}</td>
+                    <!-- <input type="file" name="files" multiple /> -->
+                </tr>
+            {% endfor %}
+        </table>
+        <table>
             {% for field in form %}
                 <tr>
                     <th>{{field.name}}</th>
@@ -18,12 +27,6 @@ Description: create profile form page, extending the base.html file -->
                     <!-- <input type="file" name="files" multiple /> -->
                 </tr>
             {% endfor %}
-            <tr>
-                <td></td>
-                <td>
-                    <input type="submit" name='Create Profile!' value='Create Profile!'>
-                </td>
-            </tr>
         </table>
 
     <input type="submit" name="submit" value="Submit">

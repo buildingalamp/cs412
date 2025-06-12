@@ -7,6 +7,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 from .models import Profile, StatusMessage, Image, StatusImage
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusMessageForm
 
@@ -31,6 +34,26 @@ class CreateProfileView(CreateView):
 
     form_class = CreateProfileForm
     template_name = "mini_fb/create_profile_form.html"
+
+    def get_context_data(self, **kwargs:any):
+        """method to handle user registration form"""
+        context = super().get_context_data(**kwargs)
+        context['user_form'] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        """method to handle the submission of the form"""
+        user_form = UserCreationForm(self.request.POST)
+
+        if user_form.is_valid():
+            user = user_form.save()
+
+            login(self.request, user)
+            form.instance.user = user
+
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     """View class to handle the creation of a new Status Message, inherits from CreateView"""
