@@ -14,7 +14,7 @@ Description: show friend suggestions for a profile, extending the base.html file
             <div>
                 <strong>{{friend.first_name}} {{friend.last_name}}</strong>
                 <img class="friend_profile_image" src='{{friend.profile_image_file.url}}' alt='{{friend.profile_image_file.url}}'>
-                <a href="{% url 'add_friend' pk=profile.pk other_pk=friend.pk %}">Add Friend</a>
+                <a href="{% url 'add_friend' other_pk=friend.pk %}">Add Friend</a>
             </div>
         {% endfor %}
             <div>

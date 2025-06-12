@@ -3,9 +3,8 @@
 # Description: model file used to define database models and their attributes
 
 from django.db import models
-from django.db. models import Q
 from django.urls import reverse
-import sys
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Profile(models.Model):
@@ -16,8 +15,8 @@ class Profile(models.Model):
     last_name = models.TextField(blank=True)
     city = models.TextField(blank=True)
     email_address = models.EmailField(blank=True)
-    # profile_image_url = models.URLField(blank=True) #url as a string
     profile_image_file = models.ImageField(blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         """Returns Profile's first and last name as one string"""

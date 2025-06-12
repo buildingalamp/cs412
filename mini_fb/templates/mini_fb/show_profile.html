@@ -20,13 +20,14 @@ Description: show a single profile page, extending the base.html file -->
         <h3>City: {{profile.city}}</h3>
         <h3>Email: {{profile.email_address}}</h3>
     </div>
+    {% if request.user.is_authenticated and user == profile.user %}
     <div class="buttons">
-        <h3><a href="{% url 'create_status' profile.pk %}">Create Status</a></h3>
-        <h3><a href="{% url 'update_profile' profile.pk %}">Update Profile</a></h3>
-        <h3><a href="{% url 'friend_suggestions' profile.pk %}">Friend Suggestions</a></h3>
-        <h3><a href="{% url 'news_feed' profile.pk %}">News Feed</a></h3>
+        <h3><a href="{% url 'create_status' %}">Create Status</a></h3>
+        <h3><a href="{% url 'update_profile' %}">Update Profile</a></h3>
+        <h3><a href="{% url 'friend_suggestions' %}">Friend Suggestions</a></h3>
+        <h3><a href="{% url 'news_feed' %}">News Feed</a></h3>
     </div>
-
+    {% endif %}
     <div>
         <h2>Friends</h2>
         {% for friend in profile.get_friends %}
@@ -50,9 +51,10 @@ Description: show a single profile page, extending the base.html file -->
                 {% for img in status.get_images %}
                     <img class="status_message_image" src='{{img.image_file.url}}' alt='{{img.image_file.url}}'>
                 {% endfor %}
-
-                <a href="{% url 'delete_status' status.pk %}">Delete</a>
-                <a href="{% url 'update_status' status.pk %}">Update</a>
+                {% if request.user.is_authenticated and user == profile.user %}
+                    <a href="{% url 'delete_status' status.pk %}">Delete</a>
+                    <a href="{% url 'update_status' status.pk %}">Update</a>
+                {% endif %}
             </div>
         {% endfor %}
     </div>
