@@ -33,9 +33,9 @@ class Voter(models.Model):
         '''Return the full name of a Voter'''
         return f'{self.first_name} {self.last_name}'
     
-    def dob(self):
-        """Return a readable string representation of the date_of_birth of a Voter"""
-        return
+    def address(self):
+        """Return a readable string representation of the address of a Voter"""
+        return f'{self.address_street_number} {self.address_street_name}, Apartment {self.address_apartment_number}, Newton, MA'
          
 def text_to_datefield(text):
     """Parses the """
@@ -72,20 +72,3 @@ def load_data():
             print(f'Created voter {voter}.')
         except:
             print(f"Skipped: {fields}")
-
-# fields[1] = JAFFE
-# fields[2] = HARRIETTE
-# fields[3] = 193
-# fields[4] = OAK ST
-# fields[5] = 606E
-# fields[6] = 02464
-# fields[7] = 1941-02-18
-# fields[8] = 1995-05-15
-# fields[9] = D 
-# fields[10] = 1
-# fields[11] = TRUE
-# fields[12] = FALSE
-# fields[13] = TRUE
-# fields[14] = TRUE
-# fields[15] = FALSE
-# fields[16] = 3

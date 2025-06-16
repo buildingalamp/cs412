@@ -1,0 +1,45 @@
+<!-- marathon_analytics/templates/marathon_analytics/search.html -->
+<h1>Search</h1>
+
+<table>
+<form action="{% url 'voters' %}" method="GET">
+<label for="party_affiliation">Select Party Affiliation:</label>
+    <select name="party_affiliation" id="party_affiliation">
+        <option value="">Choose</option>
+        {% for party in party_affiliations %}
+            <option value="{{party}}">{{party}}</option>
+        {% endfor %}
+    </select>
+    <label for="voter_score">Select Voter Score:</label>
+    <select name="voter_score" id="voter_score">
+        <option value="">Choose</option>
+        {% for score in voter_scores %}
+            <option value="{{score}}">{{score}}</option>
+        {% endfor %}
+    </select>
+    <label for="min_dob">Min Year of Birth:</label>
+    <select name="min_dob" id="min_dob">
+        <option value="">Choose</option>
+        {% for year in years %}
+            <option value="{{year}}">{{year}}</option>
+        {% endfor %}
+    </select>
+
+    <label for="max_dob">Max Year of Birth:</label>
+    <select name="max_dob" id="max_dob">
+        <option value="">Choose</option>
+        {% for year in years %}
+            <option value="{{year}}">{{year}}</option>
+        {% endfor %}
+    </select>
+
+    <fieldset>
+        <legend>Previous Election Participation</legend>
+        {% for vote in voted_in %}
+            <label><input type="checkbox" name="{{vote}}" value="1">{{vote}}</label>
+        {% endfor %}
+    </fieldset>
+
+    <button type="submit">Filter</button>
+</form>
+</table>
