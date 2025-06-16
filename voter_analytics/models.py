@@ -1,3 +1,7 @@
+# File: models.py
+# Author: Jeffrey Zhou (jzhou25@bu.edu), 6/15/2025
+# Description: model file used to define database models and their attributes
+
 from django.db import models
 from datetime import datetime
 
@@ -36,9 +40,6 @@ class Voter(models.Model):
     def address(self):
         """Return a readable string representation of the address of a Voter"""
         return f'{self.address_street_number} {self.address_street_name}, Apartment {self.address_apartment_number}, Newton, MA'
-         
-def text_to_datefield(text):
-    """Parses the """
 
 def load_data():
     '''Function to load data records from CSV file into Django model instances.'''

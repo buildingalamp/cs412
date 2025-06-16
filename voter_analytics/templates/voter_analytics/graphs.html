@@ -1,0 +1,25 @@
+<!-- File: graphs.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/15/2025
+Description: graphs html file to display graphs of voter data -->
+
+{% extends 'voter_analytics/base.html' %}
+
+{% block content %}
+<div class="container">
+    <form method="GET">
+        {% include "voter_analytics/search.html" %}    
+    </form>
+    <h1>Voter Graphs</h1>
+
+    <h2>Voter distribution by Year of Birth</h2>
+    {{birth_year_hist|safe}}
+
+    <h2>Voter distribution by Party Affiliation</h2>
+    {{party_pie|safe}}
+
+    <h2>Vote Count by Election</h2>
+    {{election_hist|safe}}
+
+</div>
+    
+{% endblock %}
