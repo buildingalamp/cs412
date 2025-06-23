@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "mini_fb",
     "voter_analytics",
+    "project",
 ]
 
 MIDDLEWARE = [
