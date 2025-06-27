@@ -1,0 +1,15 @@
+<!-- File: add_fight_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/25/2025
+Description: Creating a new Fight form page -->
+
+{% extends "project/base.html" %}
+{% block content %}
+    <main>
+        <h2>Schedule a New Fight</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Fight</button>
+        </form>
+    </main>
+{% endblock %}

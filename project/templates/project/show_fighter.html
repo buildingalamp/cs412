@@ -1,0 +1,108 @@
+<!-- File: add_fight_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/24/2025
+Description: Showing a Fighter page -->
+
+{% extends "project/base.html" %}
+{% block content %}
+    <div class="fighter-detail-container">
+        <div class="fighter-left">
+            <h2>{{ fighter.name }}</h2>
+
+            {% if fighter.nickname %}
+                <p class="nickname">“{{ fighter.nickname }}”</p>
+            {% endif %}
+
+            {% if fighter.profile_image %}
+                <img src="{{ fighter.profile_image.url }}" alt="{{ fighter.name }}" class="fighter-profile-img">
+            {% endif %}
+        </div>
+
+        <div class="fighter-right">
+            <p><strong>Height:</strong> {{ fighter.height }} cm</p>
+            <p><strong>Reach:</strong> {{ fighter.reach }} cm</p>
+            <p><strong>Weight Class:</strong> {{ fighter.weight_class.weight_class }}</p>
+            <p><strong>Age:</strong> {{ fighter.age }}</p>
+            <p><strong>Nationality:</strong> {{ fighter.nationality }}</p>
+            <p><strong>Record:</strong> {{ fighter.wins }}-{{ fighter.losses }}-{{ fighter.draws }}</p>
+        </div>
+    </div>
+
+    <!-- User Authentication logic to allow users to update fighter's info -->
+    {% if user.is_authenticated %}
+        <div class="fighter-actions">
+            <a href="{% url 'update_fighter' fighter.pk %}" class="action-button">
+                Update Fighter's Info
+            </a>
+        </div>
+    {% endif %}
+
+    <table border="1" class="sortable">
+        <thead>
+            <tr>
+                <th>Fight</th>
+                <th>Weight Class</th>
+                <th>Rounds</th>
+                <th>Finish</th>
+                <th>Date</th>
+                <th>Star Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <!-- Iterate over each fight -->
+            {% for fight in fighter.get_fights %}
+                <tr>
+                    <td>
+
+                        <!-- Link to fight instance page -->
+                        <a href="{% url 'show_fight' fight.pk %}">
+                            
+                            <!-- Winner vs loser or Draw color logic -->
+                            {% if fight.draw %}
+                                <span style="color: gray">{{ fight.winner.name }}</span> vs <span style="color: gray">{{ fight.loser.name }}</span>
+                            {% elif fight.winner == fighter %}
+                                <span style="color: green">{{ fight.winner.name }}</span> vs <span style="color: red">{{ fight.loser.name }}</span>
+                            {% else %}
+                                <span style="color: red">{{ fight.winner.name }}</span> vs <span style="color: green">{{ fight.loser.name }}</span>
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td>{{ fight.weight_class.weight_class }}</td>
+                    <td>{{ fight.rounds }}</td>
+                    <td>{{ fight.finish }}</td>
+                    <td>{{ fight.date }}</td>
+                    <!-- Round average rating to tenth -->
+                    <td>{{ fight.get_star_rating|floatformat:1 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Javascript table sorting -->
+    <script>
+        document.querySelectorAll('.sortable').forEach(table => {
+            table.querySelectorAll('th').forEach((header, index) => {
+            header.addEventListener('click', () => {
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+                const sortedRows = rows.sort((a, b) => {
+                const aText = a.children[index].textContent.trim();
+                const bText = b.children[index].textContent.trim();
+                return !isNaN(aText - bText)
+                    ? Number(aText) - Number(bText)
+                    : aText.localeCompare(bText);
+                });
+                if (header.classList.contains('asc')) {
+                sortedRows.reverse();
+                header.classList.remove('asc');
+                header.classList.add('desc');
+                } else {
+                header.classList.remove('desc');
+                header.classList.add('asc');
+                }
+                rows.forEach(row => table.querySelector('tbody').removeChild(row));
+                sortedRows.forEach(row => table.querySelector('tbody').appendChild(row));
+            });
+            });
+        });
+    </script>
+{% endblock %}

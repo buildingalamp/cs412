@@ -1,0 +1,94 @@
+<!-- File: add_fight_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/25/2025
+Description: Showing all fights in a table, includes the search_fight.html page to handle filtering -->
+
+{% extends 'project/base.html' %}
+{% block content %}
+    <h1>All Fights</h1>
+    <div class="container">
+
+        <!-- filter form -->
+        <div class="row">
+            {% include "project/search_fighters.html" %}    
+        </div>
+
+    <table border="1" class="sortable">
+        <thead>
+        <tr>
+            <th>Fight</th>
+            <th>Weight Class</th>
+            <th>Rounds</th>
+            <th>Finish</th>
+            <th>Date</th>
+            <th>Rating</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+            <!-- Iterate over each fight -->
+            {% for fight in object_list %}
+                <tr>
+                <td>
+
+                    <!-- Link to fight instance page -->
+                    <a href="{% url 'show_fight' fight.pk %}">
+
+                        <!-- Winner vs loser or Draw color logic -->
+                        {% if fight.draw %}
+                            <span style="color: gray">
+                                {{ fight.winner.name }}
+                            </span>
+                            vs 
+                            <span style="color: gray">
+                                {{ fight.loser.name }}
+                            </span>
+                        {% else %}
+                            <span style="color: green">
+                                {{ fight.winner.name }}
+                            </span>
+                                vs 
+                            <span style="color: red">
+                                {{ fight.loser.name }}
+                            </span>
+                        {% endif %}
+                    </a>
+                </td>
+                <td>{{ fight.weight_class.weight_class }}</td>
+                <td>{{ fight.rounds }}</td>
+                <td>{{ fight.finish }}</td>
+                <td>{{ fight.date }}</td>
+                <!-- Round average rating to tenth -->
+                <td>{{ fight.get_star_rating|floatformat:1 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Javascript table sorting -->
+    <script>
+        document.querySelectorAll('.sortable').forEach(table => {
+        table.querySelectorAll('th').forEach((header, index) => {
+            header.addEventListener('click', () => {
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            const sortedRows = rows.sort((a, b) => {
+                const aText = a.children[index].textContent.trim();
+                const bText = b.children[index].textContent.trim();
+                return !isNaN(aText - bText)
+                ? Number(aText) - Number(bText)
+                : aText.localeCompare(bText);
+            });
+            if (header.classList.contains('asc')) {
+                sortedRows.reverse();
+                header.classList.remove('asc');
+                header.classList.add('desc');
+            } else {
+                header.classList.remove('desc');
+                header.classList.add('asc');
+            }
+            rows.forEach(row => table.querySelector('tbody').removeChild(row));
+            sortedRows.forEach(row => table.querySelector('tbody').appendChild(row));
+            });
+        });
+        });
+    </script>
+{% endblock %}

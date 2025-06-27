@@ -1,0 +1,19 @@
+<!-- File: add_fight_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/24/2025
+Description: Creating a new Rating on an existing Fight form page -->
+
+{% extends 'project/base.html' %}
+{% block content %}
+</main>
+    <h2>Rate Fight: {{ fight.winner.name }} vs {{ fight.loser.name }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="action-button">Submit Rating</button>
+
+        <!-- Cancel, redirect back to Fight instance page -->
+        <a href="{% url 'show_fight' fight.pk %}" class="action-button cancel-button">Cancel</a>
+    </form>
+</main>
+{% endblock %}

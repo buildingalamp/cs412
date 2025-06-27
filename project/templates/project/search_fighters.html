@@ -1,0 +1,53 @@
+<!-- File: add_fight_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/26/2025
+Description: Filtering for Fights logic to be included in show_all_fights.html page -->
+
+<form method="GET" class="filter-form">
+    <!-- Weight Class -->
+    <label for="weight_class">Weight Class:</label>
+    <select name="weight_class" id="weight_class">
+        <option value="">All</option>
+
+        {% for class in weight_classes %}
+            <option value="{{ class.weight_class }}"
+                {% if request.GET.weight_class == class.weight_class %}
+                    selected
+                {% endif %}>
+                    {{ class.weight_class }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <!-- Finish -->
+    <label for="finish">Finish:</label>
+    <select name="finish" id="finish">
+        <option value="">All</option>
+
+        {% for f in finishes %}
+            <option value="{{ f }}"
+            {% if request.GET.finish == f %}
+                selected
+            {% endif %}>
+                {{ f }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <!-- Minimum Rating -->
+    <label for="min_rating">Min Rating:</label>
+    <select name="min_rating" id="min_rating">
+        <option value="">All</option>
+
+        {% for r in ratings %}
+            <option value="{{ r }}"
+            {% if request.GET.min_rating == r|stringformat:'s' %}
+                selected
+            {% endif %}>
+                {{ r }}+
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="action-button">Filter</button>
+    <a href="{% url 'show_all_fights' %}" class="action-button">Clear Filters</a>
+</form>

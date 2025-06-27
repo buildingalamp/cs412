@@ -1,0 +1,40 @@
+<!-- File: base.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/24/2025
+Description: base html file to serve as template for all other pages -->
+
+{% load static %}
+<html>
+    <head>
+        <title>UFSEE</title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+        <!-- Importing the Roboto font -->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <h1>RateUFC</h1>
+                <!-- Header Navigation Links -->
+                <nav>
+                    <a href="{% url 'show_all_fighters'%}">ALL FIGHTERS</a>
+                    <a href="{% url 'show_all_fights'%}">ALL FIGHTS</a>
+                    
+                    <!-- User Authentication Logic -->
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'create_fighter' %}">ADD A FIGHTER</a>
+                        <a href="{% url 'create_fight' %}">ADD A FIGHT</a>
+                        <form action="{% url 'logout' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" class="logout-button" value="LOGOUT">
+                        </form>
+                    {% else %}
+                        <a href="{% url 'register' %}" class="login-button">REGISTER</a>
+                        <a href="{% url 'login' %}" class="login-button">LOGIN</a>
+                    {% endif %}
+                </nav>
+        </header>
+    
+    <!-- substitute specific content here -->
+    {% block content %}
+    {% endblock %}    
+    </body>
+</html>

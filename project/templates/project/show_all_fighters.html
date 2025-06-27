@@ -1,0 +1,37 @@
+<!-- File: show_all_fighters.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/24/2025
+Description: Show all fighters page, extending the base.html file -->
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+    <h1 class="page-header">All Fighters</h1>
+
+    <!-- Separate by weight class -->
+    {% for weight_class in weight_classes %}
+        <div class="weight-class-box">
+            <h2>{{ weight_class.weight_class }}</h2>
+            <div class="fighters-grid">
+                
+                <!-- Fighters per weight class -->
+                {% for fighter in weight_class.get_fighters %}
+                    <div class="fighter-card">
+                        <a href="{% url 'show_fighter' fighter.pk %}">
+
+                            {% if fighter.profile_image %}
+                                <img class="fighter-img" src="{{ fighter.profile_image.url }}" alt="{{ fighter.name }}">
+                            {% endif %}
+
+                            <h3 class="fighter-name">{{ fighter.name }}</h3>
+                        </a>
+
+                        {% if fighter.nickname %}
+                            <h4 class="fighter-record">"{{ fighter.nickname }}"</h4>
+                        {% endif %}
+                        
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

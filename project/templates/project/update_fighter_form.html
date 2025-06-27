@@ -1,0 +1,20 @@
+<!-- File: add_fight_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/24/2025
+Description: Updating a Fighter's attributes form page -->
+
+{% extends "project/base.html" %}
+{% block content %}
+</main>
+    <h2>Update {{ fighter.name }}'s Info</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-buttons">
+            <button type="submit" class="action-button">Update Fighter</button>
+            <!-- Cancel, redirect back to Fighter instance page -->
+            <a href="{% url 'show_fighter' fighter.pk %}" class="action-button cancel-button">Cancel</a>
+        </div>
+    </form>
+</main>
+{% endblock %}

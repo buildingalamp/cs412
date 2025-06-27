@@ -1,0 +1,18 @@
+<!-- File: delete_fight_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/24/2025
+Description: Delete an existing Fight form page -->
+
+{% extends "project/base.html" %}
+{% block content %}
+    </main>
+        <h2>Delete Fight</h2>
+        <p>Delete Fight between <strong>{{ object.winner.name }}</strong> and <strong>{{ object.loser.name }}</strong></p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="action-button">Delete</button>
+
+            <!-- Cancel, redirect back to Fight instance page -->
+            <a href="{% url 'show_fight' object.pk %}" class="action-button cancel-button">Cancel</a>
+        </form>
+    </main>
+{% endblock %}

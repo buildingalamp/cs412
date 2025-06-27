@@ -1,0 +1,15 @@
+<!-- File: add_fight_form.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/24/2025
+Description: Creating a new Fighter form page -->
+
+{% extends "project/base.html" %}
+{% block content %}
+    <main>
+        <h2>Add New Fighter</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Fighter</button>
+        </form>
+    </main>
+{% endblock %}

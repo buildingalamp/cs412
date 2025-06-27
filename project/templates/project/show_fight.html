@@ -1,0 +1,64 @@
+<!-- File: show_fighter.html
+Author: Jeffrey Zhou (jzhou25@bu.edu), 6/24/2025
+Description: Show a single fight page, extending the base.html file -->
+
+{% extends "project/base.html" %}
+{% block content %}
+    <div class="fight-result-header">
+
+        <!-- Show winner if there is one, otherwise show draw -->
+        {% if fight.draw %}
+            <h2>Draw</h2>
+        {% else %}
+            <h2>Winner: {{ fight.winner.name }}</h2>
+        {% endif %}
+
+        <!-- Rating -->
+        <p><strong>Rating:</strong> {{ fight.get_star_rating|floatformat:1 }}</p>
+
+        <!-- Youtube search link -->
+        <a class="yt-button" target="_blank" href="https://www.youtube.com/results?search_query={{ fight.winner.name|urlencode }}+vs+{{ fight.loser.name|urlencode }}">
+            Watch Fight
+        </a>
+
+        <!-- User authentication logic -->
+        {% if user.is_authenticated %}
+
+            <!-- Link to rate fight page -->
+            <div class="yt-button">
+                <a href="{% url 'rate_fight' fight.pk %}" class="action-button">Rate Fight</a>
+            </div>
+
+            <!-- Link to youtube -->
+            <div class="yt-button">
+                <a href="{% url 'delete_fight' fight.pk %}" class="action-button">Delete Fight</a>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <div class="fight-detail-container">
+        <!-- Winner Section -->
+        <div class="fight-side winner">
+            <h3><a href="{% url 'show_fighter' fight.winner.pk %}">{{ fight.winner.name }}</a></h3>
+            <img src="{{ fight.winner.fight_image.url }}" alt="{{ fight.winner.name }}" class="fight-img">
+        </div>
+
+        <!-- Center -->
+        <div class="fight-center">
+            <h2>VS</h2>
+            <div class="fight-info">
+                <p><strong>Weight Class:</strong> {{ fight.weight_class.weight_class }}</p>
+                <p><strong>Rounds:</strong> {{ fight.rounds }}</p>
+                <p><strong>Finish:</strong> {{ fight.finish }}</p>
+                <p><strong>Date:</strong> {{ fight.date }}</p>
+            </div>
+        </div>
+
+        <!-- Loser Section -->
+        <div class="fight-side loser">
+            <h3><a href="{% url 'show_fighter' fight.loser.pk %}">{{ fight.loser.name }}</a></h3>
+            <img src="{{ fight.loser.fight_image.url }}" alt="{{ fight.loser.name }}" class="fight-img flipped">
+        </div>
+    </div>
+{% endblock %}
