@@ -76,7 +76,7 @@ class Fight(models.Model):
     loser = models.ForeignKey("Fighter", related_name="loser", on_delete=models.CASCADE)
     weight_class = models.ForeignKey("WeightClass", on_delete=models.CASCADE)
     rounds = models.IntegerField(blank=True)
-    finish = models.CharField(max_length=5, choices=Finish, default=Finish.DECISION)
+    finish = models.CharField(max_length=5, choices=Finish.choices, default=Finish.DECISION)
     date = models.DateField(blank=True)
 
     def __str__(self):
